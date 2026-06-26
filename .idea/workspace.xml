@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab9e01bb-6723-4c93-a37e-79bd986a3383" name="Changes" comment="" />
+    <list default="true" id="ab9e01bb-6723-4c93-a37e-79bd986a3383" name="Changes" comment="первое ревью" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MinorMik/django-sprint4-main.git",
+    "accountId": "c8e0b5a3-e50a-4536-8bd8-06c7c47209fb"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 1
 }]]></component>
@@ -40,6 +52,36 @@
       <option name="presentableId" value="Default" />
       <updated>1782451492154</updated>
     </task>
+    <task id="LOCAL-00001" summary="start">
+      <option name="closed" value="true" />
+      <created>1782451566955</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782451566955</updated>
+    </task>
+    <task id="LOCAL-00002" summary="start">
+      <option name="closed" value="true" />
+      <created>1782451616587</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1782451616587</updated>
+    </task>
+    <task id="LOCAL-00003" summary="первое ревью">
+      <option name="closed" value="true" />
+      <created>1782451702176</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1782451702176</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="start" />
+    <MESSAGE value="первое ревью" />
+    <option name="LAST_COMMIT_MESSAGE" value="первое ревью" />
   </component>
 </project>
