@@ -41,7 +41,7 @@ class ProfileDetailView(DetailView):
         context['profile'] = user
         context['page_obj'] = page_obj
         return context
-    
+
     class Meta:
         ordering = ['-pub_date']
 
@@ -75,7 +75,7 @@ class PostListView(ListView):
         ).annotate(
             comment_count=Count('comment')
         )
-        
+
     class Meta:
         ordering = ['-pub_date']
 
@@ -126,7 +126,7 @@ class PostDetailView(DetailView):
             is_published=True,
             pub_date__lte=timezone.now()
         )
-        
+
     class Meta:
         ordering = ['created_at']
 
@@ -195,7 +195,7 @@ class CategoryListView(ListView):
         context['category'] = get_object_or_404(
             Category, slug=category_slug, is_published=True)
         return context
-    
+
     class Meta:
         ordering = ['-pub_date']
 
