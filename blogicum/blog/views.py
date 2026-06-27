@@ -75,6 +75,7 @@ class PostListView(ListView):
             comment_count=Count('comments')
         )
 
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
