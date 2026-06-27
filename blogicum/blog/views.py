@@ -32,7 +32,7 @@ class ProfileDetailView(DetailView):
         posts = Post.objects.filter(
             author=user
         ).annotate(
-            comment_count=Count('comment')
+            comment_count=Count('comments')
         )
 
         paginator = Paginator(posts, PAGINATION_PAGES_COUNT)
@@ -181,7 +181,7 @@ class CategoryListView(ListView):
             is_published=True,
             category__slug=category_slug
         ).annotate(
-            comment_count=Count('comment')
+            comment_count=Count('comments')
         )
 
     def get_context_data(self, **kwargs):
