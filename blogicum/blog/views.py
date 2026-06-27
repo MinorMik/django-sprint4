@@ -30,8 +30,6 @@ class ProfileDetailView(DetailView):
         user = self.object
         posts = Post.objects.filter(
             author=user
-        ).order_by(
-            '-pub_date'
         ).annotate(
             comment_count=Count('comment')
         )
@@ -43,6 +41,9 @@ class ProfileDetailView(DetailView):
         context['profile'] = user
         context['page_obj'] = page_obj
         return context
+    
+    class Meta:
+        ordering = ['-pub_date']
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
@@ -71,11 +72,12 @@ class PostListView(ListView):
             pub_date__lte=timezone.now(),
             is_published=True,
             category__is_published=True
-        ).order_by(
-            '-pub_date'
         ).annotate(
             comment_count=Count('comment')
         )
+        
+    class Meta:
+        ordering = ['-pub_date']
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -104,7 +106,7 @@ class PostDetailView(DetailView):
         context['post'] = self.object
         context['form'] = CommentForm()
         context['comments'] = Comment.objects.filter(
-            post=self.object).order_by('created_at')
+            post=self.object)
         return context
 
     def get_queryset(self):
@@ -124,6 +126,9 @@ class PostDetailView(DetailView):
             is_published=True,
             pub_date__lte=timezone.now()
         )
+        
+    class Meta:
+        ordering = ['created_at']
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -180,8 +185,6 @@ class CategoryListView(ListView):
             pub_date__lte=timezone.now(),
             is_published=True,
             category__slug=category_slug
-        ).order_by(
-            '-pub_date'
         ).annotate(
             comment_count=Count('comment')
         )
@@ -192,6 +195,9 @@ class CategoryListView(ListView):
         context['category'] = get_object_or_404(
             Category, slug=category_slug, is_published=True)
         return context
+    
+    class Meta:
+        ordering = ['-pub_date']
 
 
 @login_required
