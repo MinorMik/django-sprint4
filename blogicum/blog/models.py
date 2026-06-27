@@ -94,7 +94,7 @@ class Post(BaseModel):
 
 class Comment(models.Model):
     text = models.TextField(help_text='Текст комментария',
-                            verbose_name='текст')
+                            verbose_name='Комментарий')
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              related_name='comments',
                              verbose_name='пост')
@@ -104,7 +104,7 @@ class Comment(models.Model):
                                verbose_name='Автор')
 
     class Meta:
-        ordering = ('created_at',)
+        ordering = ['created_at']
 
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'

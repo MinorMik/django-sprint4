@@ -24,6 +24,7 @@ class ProfileDetailView(DetailView):
     template_name = 'blog/profile.html'
     slug_field = 'username'
     slug_url_kwarg = 'username'
+    ordering = ['-pub_date']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,9 +42,6 @@ class ProfileDetailView(DetailView):
         context['profile'] = user
         context['page_obj'] = page_obj
         return context
-
-    class Meta:
-        ordering = ['-pub_date']
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
@@ -66,6 +64,7 @@ class PostListView(ListView):
     model = Post
     paginate_by = PAGINATION_PAGES_COUNT
     template_name = 'blog/index.html'
+    ordering = ['-pub_date']
 
     def get_queryset(self):
         return Post.objects.filter(
@@ -73,12 +72,8 @@ class PostListView(ListView):
             is_published=True,
             category__is_published=True
         ).annotate(
-            comment_count=Count('comment')
+            comment_count=Count('comments')
         )
-
-    class Meta:
-        ordering = ['-pub_date']
-
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -100,6 +95,7 @@ class PostDetailView(DetailView):
     form_class = CommentForm
     pk_url_kwarg = 'pk'
     template_name = 'blog/detail.html'
+    ordering = ['created_at']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -126,9 +122,6 @@ class PostDetailView(DetailView):
             is_published=True,
             pub_date__lte=timezone.now()
         )
-
-    class Meta:
-        ordering = ['created_at']
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -178,6 +171,7 @@ class CategoryListView(ListView):
     model = Post
     paginate_by = PAGINATION_PAGES_COUNT
     template_name = 'blog/category.html'
+    ordering = ['-pub_date']
 
     def get_queryset(self):
         category_slug = self.kwargs.get('category_slug')
@@ -195,9 +189,6 @@ class CategoryListView(ListView):
         context['category'] = get_object_or_404(
             Category, slug=category_slug, is_published=True)
         return context
-
-    class Meta:
-        ordering = ['-pub_date']
 
 
 @login_required
