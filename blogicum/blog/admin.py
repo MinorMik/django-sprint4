@@ -59,3 +59,20 @@ class PostAdmin(admin.ModelAdmin):
                    'is_published',
                    'created_at')
 
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('text',
+                    'post',
+                    'author',
+                    'created_at')
+
+    search_fields = ('text',
+                     'post',
+                     'author',
+                     'created_at')
+
+    list_filter = ('text',
+                   'post',
+                   'author',
+                   'created_at')

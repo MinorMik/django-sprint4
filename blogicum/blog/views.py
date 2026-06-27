@@ -210,7 +210,6 @@ def add_comment(request, pk):
     return redirect('blog:post_detail', pk=pk)
 
 
-
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     pk_url_kwarg = 'comment_pk'
