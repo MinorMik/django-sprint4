@@ -1,10 +1,61 @@
 from django.contrib import admin
-from blog.models import Post, Location, Category, Comment
 
-# Register your models here.
+from blog.models import Category, Comment, Location, Post
 
 
-admin.site.register(Post)
-admin.site.register(Location),
-admin.site.register(Category),
-admin.site.register(Comment)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('title',
+                    'slug',
+                    'is_published',
+                    'created_at')
+
+    search_fields = ('title',
+                     'slug',
+                     'is_published',
+                     'created_at')
+
+    list_filter = ('title',
+                   'slug',
+                   'is_published',
+                   'created_at')
+
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('name',
+                    'is_published',
+                    'created_at')
+
+    search_fields = ('name',
+                     'is_published',
+                     'created_at')
+
+    list_filter = ('name',
+                   'is_published',
+                   'created_at')
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title',
+                    'pub_date',
+                    'location',
+                    'category',
+                    'is_published',
+                    'created_at')
+
+    search_fields = ('title',
+                     'pub_date',
+                     'location',
+                     'category',
+                     'is_published',
+                     'created_at')
+
+    list_filter = ('title',
+                   'pub_date',
+                   'location',
+                   'category',
+                   'is_published',
+                   'created_at')
+

@@ -1,37 +1,22 @@
-from django.shortcuts import get_object_or_404
-# from django.http import Http404
-from .models import Post, Comment, Category
-from django.db.models import Q
-from django.utils import timezone
-from django.views.generic import (
-    CreateView, UpdateView, DetailView, DeleteView, ListView
-)
 from django.contrib.auth import get_user_model
-from django.urls import reverse_lazy
-from django.core.paginator import Paginator
-from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.db.models import Count
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-
-# Create your views here.
+from .forms import CommentForm, PostForm
+from .models import Category, Comment, Post
 
 User = get_user_model()
 
-
-class CustomParinator:
-
-    def __init__(self, request, queryset, page_size=10):
-        self.paginator = Paginator(queryset, page_size)
-        self.page_number = request.GET.get('page')
-        self.page_obj = self.paginator.get_page(self.page_number)
-
-    def get_paginator(self):
-        return self.page_obj
+PAGINATION_PAGES_COUNT = 10
 
 
 class ProfileDetailView(DetailView):
@@ -51,8 +36,8 @@ class ProfileDetailView(DetailView):
             comment_count=Count('comment')
         )
 
-        paginator = Paginator(posts, 10)
-        page_number = self.request.GET.get('page')
+        paginator = Paginator(posts, PAGINATION_PAGES_COUNT)
+        page_number = self.request.GET.get('page', 1)
         page_obj = paginator.get_page(page_number)
 
         context['profile'] = user
@@ -78,7 +63,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 10
+    paginate_by = PAGINATION_PAGES_COUNT
     template_name = 'blog/index.html'
 
     def get_queryset(self):
@@ -186,7 +171,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class CategoryListView(ListView):
     model = Post
-    paginate_by = 10
+    paginate_by = PAGINATION_PAGES_COUNT
     template_name = 'blog/category.html'
 
     def get_queryset(self):
@@ -212,13 +197,18 @@ class CategoryListView(ListView):
 @login_required
 def add_comment(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.author = request.user
-        comment.post = post
-        comment.save()
+    form = CommentForm(request.POST or None)
+
+    if not form.is_valid():
+        return redirect('blog:post_detail', pk=pk)
+
+    comment = form.save(commit=False)
+    comment.author = request.user
+    comment.post = post
+    comment.save()
+
     return redirect('blog:post_detail', pk=pk)
+
 
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -258,10 +248,8 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     success_url = reverse_lazy('password_change_done')
 
     def form_valid(self, form):
-        # Сохраняем пароль
         response = super().form_valid(form)
 
-        # Отправляем письмо об изменении пароля
         send_mail(
             subject='Пароль изменен',
             message=f'Здравствуйте, {self.request.user.username}!\n\n'
