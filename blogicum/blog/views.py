@@ -116,7 +116,7 @@ class PostDetailView(DetailView):
                     pub_date__lte=timezone.now()
                 )
                 | Q(author=user)
-            )
+            ).order_by('-pub_date')
 
         return Post.objects.filter(
             category__is_published=True,
