@@ -33,7 +33,7 @@ class ProfileDetailView(DetailView):
             author=user
         ).annotate(
             comment_count=Count('comments')
-        )
+        ).order_by('-pub_date')
 
         paginator = Paginator(posts, PAGINATION_PAGES_COUNT)
         page_number = self.request.GET.get('page', 1)
