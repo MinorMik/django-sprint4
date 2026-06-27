@@ -64,7 +64,6 @@ class PostListView(ListView):
     model = Post
     paginate_by = PAGINATION_PAGES_COUNT
     template_name = 'blog/index.html'
-    ordering = ['-pub_date']
 
     def get_queryset(self):
         return Post.objects.filter(
@@ -73,7 +72,7 @@ class PostListView(ListView):
             category__is_published=True
         ).annotate(
             comment_count=Count('comments')
-        )
+        ).order_by('-pub_date')
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
