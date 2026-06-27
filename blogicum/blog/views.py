@@ -122,7 +122,7 @@ class PostDetailView(DetailView):
             category__is_published=True,
             is_published=True,
             pub_date__lte=timezone.now()
-        )
+        ).order_by('-pub_date')
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -182,7 +182,7 @@ class CategoryListView(ListView):
             category__slug=category_slug
         ).annotate(
             comment_count=Count('comments')
-        )
+        ).order_by('-pub_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
