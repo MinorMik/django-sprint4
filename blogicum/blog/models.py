@@ -93,7 +93,7 @@ class Post(BaseModel):
 
 
 class Comment(models.Model):
-    text = models.TextField('Текст комментария',
+    text = models.TextField(help_text='Текст комментария',
                             verbose_name='текст')
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              related_name='comments',
